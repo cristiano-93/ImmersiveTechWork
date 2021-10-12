@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>three.js basic example</title>
+
+    <!-- Load the three.js library -->
+    <script type='text/javascript' src='/three.js'></script>
+
+    <!-- Load your own JavaScript code (shown below) -->
+    <!-- 'defer' ensures it loads after the page has loaded -->
+    <script type='text/javascript' src='index.js' defer></script>
+
+</head>
+
+<body>
+    <!-- By default, canvas is 300x150 so we could omit the width and height -->
+    <canvas id='canvas1' width='640' height='480'></canvas>
+    <div id="controls">
+        <input type="button" value="-x" id="xminus">
+        <input type="button" value="+x" id="xplus">
+        <input type="button" value="-y" id="yminus">
+
+        <input type="button" value="+y" id="yplus">
+        <input type="button" value="-z" id="zminus">
+        <input type="button" value="+z" id="zplus">
+
+        <input type="button" value="rotate ->" id="rotateClockwise">
+        <input type="button" value="rotate <-" id="rotateAntiClockwise">
+    </div>
+</body>
+
+</html>
