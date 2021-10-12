@@ -20,8 +20,10 @@ const geomSphere = new THREE.SphereGeometry(1, 32, 300);
 const matGreen = new THREE.MeshPhongMaterial({color: 0x00ff00, shininess: 60});
 const meshSphere = new THREE.Mesh(geomSphere, matGreen);
 
-meshSphere.position.z = -5
+meshSphere.position.z = -5; 
 meshSphere.castShadow = true;
+
+
 
 
 // red cube
@@ -61,13 +63,34 @@ const meshCylinder = new THREE.Mesh(geomCylinder, matMagenta);
 meshCylinder.position.z = 5;
 meshCylinder.castShadow = true;
 
+// texture cube
+
+const mat1 = loader.load('1.jpg');
+
+const cubeMats = [
+new THREE.MeshLambertMaterial({map: loader.load('1.jpg')}),
+new THREE.MeshLambertMaterial({map: loader.load('2.jpg')}),
+new THREE.MeshLambertMaterial({map: loader.load('3.jpg')}),
+new THREE.MeshLambertMaterial({map: loader.load('4.jpg')}),
+new THREE.MeshLambertMaterial({map: loader.load('5.jpg')}),
+new THREE.MeshLambertMaterial({map: loader.load('6.jpg')}),
+];
+
+const textureCube = new THREE.BoxGeometry(1, 1, 1);
+const textureCubeMesh = new THREE.Mesh(textureCube, cubeMats);
+textureCubeMesh.position.y = 3;
+textureCubeMesh.position.z = -3;
+
+scene.add(textureCubeMesh);
+
+
 // adding lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 ambientLight.castShadow = true;
 
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(0, 100, 0); // X, Y, Z
+directionalLight.position.set(100, 100, 100); // X, Y, Z
 directionalLight.castShadow = true;
 
 const spotLight = new THREE.SpotLight(0xffffff, 1.0);
@@ -113,7 +136,7 @@ scene.add(meshCube);
 
 
 // scene.add(ambientLight);
-// scene.add(directionalLight);
+scene.add(directionalLight);
 // scene.add(spotLight);
 // scene.add(planeMesh);
 requestAnimationFrame(renderScene);
@@ -125,12 +148,18 @@ canvas.addEventListener("keyup", e => {
     currentKey = 0
 });
 
+// orbit controls
+
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 
 function renderScene() {
     requestAnimationFrame(renderScene);
+    textureCubeMesh.rotation.x += 0.002;
+    textureCubeMesh.rotation.y += 0.002;
     meshBlueCube.rotation.x += 0.003;
     meshBlueCube.rotation.y += 0.003;
-    renderer.render(scene, camera);
+    renderer.render(scene, camera, controls);
     renderer.shadowMap.enabled = true;
 
     if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight) {
@@ -192,6 +221,12 @@ function renderScene() {
     } else if (currentKey == 53) {
         console.log("5 has been pressed");
         scene.add(spotLight);
+    } else if (currentKey == 54) {
+        console.log("6 has been pressed");
+        spotLight.position.x --;
+    } else if (currentKey == 55) {
+        console.log("7 has been pressed");
+        spotLight.position.x ++;
     }
 }
 var currentKey;
